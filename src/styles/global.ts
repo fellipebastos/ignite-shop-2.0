@@ -15,5 +15,6 @@ export const globalStyles = globalCss({
     fontFamily: 'Roboto, sans-serif',
     fontSize: '1rem',
     fontWeight: 400,
+    lineHeight: '160%'
   }
 })
