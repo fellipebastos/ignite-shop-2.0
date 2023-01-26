@@ -1,7 +1,10 @@
-import { useCart } from "@/src/hooks/useCart";
-import { formatToBRL } from "@/src/utils/money";
 import Image from "next/image";
 import { X } from "phosphor-react";
+import { useState } from "react";
+import axios from "axios";
+
+import { useCart } from "@/src/hooks/useCart";
+import { formatToBRL } from "@/src/utils/money";
 
 import {
   CartContainer,
@@ -20,6 +23,27 @@ interface CartProps {
 
 export function Cart({ isOpen, onClose }: CartProps) {
   const { products, total, totalProducts, removeProduct } = useCart()
+
+  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
+
+  async function handleFinishCheckout() {
+    setIsCreatingCheckoutSession(true)
+
+    const priceIds = products.map(product => product.defaultPriceId)
+    console.log(priceIds)
+    try {
+      const response = await axios.post('/api/checkout', {
+        priceIds,
+      })
+
+      const { checkoutUrl } = response.data
+
+      window.location.href = checkoutUrl
+    } catch (error) {
+      setIsCreatingCheckoutSession(false)
+      alert('Falha ao redirecionar para o checkout')
+    }
+  }
 
   const hasItems = totalProducts > 0
   const formattedTotal = formatToBRL(total);
@@ -70,7 +94,7 @@ export function Cart({ isOpen, onClose }: CartProps) {
         </div>
       </CartSummary>
 
-      <CheckoutButton>
+      <CheckoutButton disabled={isCreatingCheckoutSession} onClick={handleFinishCheckout}>
         Finalizar compra
       </CheckoutButton>
     </CartContainer>

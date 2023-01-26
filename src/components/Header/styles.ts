@@ -17,6 +17,7 @@ export const CartButton = styled('button', {
 
   border: 0,
   borderRadius: '6px',
+  lineHeight: 0,
 
   background: '$gray800',
   color: '$gray500',
