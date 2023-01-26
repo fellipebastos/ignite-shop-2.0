@@ -37,6 +37,7 @@ export const Product = styled(Link, {
     left: '0.25rem',
     right: '0.25rem',
     padding: '2rem',
+    gap: '2rem',
 
     borderRadius: 6,
 
@@ -50,15 +51,60 @@ export const Product = styled(Link, {
 
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
 
+    '> div': {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      gap: '0.25rem',
+    },
+
     strong: {
-      fontsize: '$lg',
+      fontSize: '$lg',
+      fontWeight: 'bold',
       color: '$gray100',
     },
 
     span: {
-      fontsize: '$xl',
+      fontSize: '$xl',
       fontWeight: 'bold',
       color: '$green300',
     }
   }
+})
+
+export const CartButton = styled('button', {
+  position: 'relative',
+  padding: '0.75rem',
+
+  border: 0,
+  borderRadius: '6px',
+
+  background: '$green500',
+  color: '$white',
+
+  cursor: 'pointer',
+
+  '&:hover': {
+    backgroundColor: '$green300',
+  },
+
+  span: {
+    height: '1.5rem',
+    width: '1.5rem',
+    padding: '0.5rem',
+
+    fontSize: '$xs',
+    fontweight: 'bold',
+    color: '$white',
+    backgroundColor: '$green500',
+    border: '3px solid $gray900',
+    borderRadius: '999px',
+
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    top: '-7px',
+    right: '-7px',
+  },
 })
