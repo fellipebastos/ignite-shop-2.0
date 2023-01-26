@@ -1,4 +1,5 @@
 import { styled } from "@/src/styles";
+import { spawn } from "child_process";
 
 export const CartContainer = styled('div', {
   display: 'flex',
@@ -175,3 +176,22 @@ export const CheckoutButton = styled('button', {
     backgroundColor: '$green300',
   }
 });
+
+export const EmptyCartMessage = styled('p', {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexDirection: 'column',
+  gap: '1rem',
+  marginTop: '5rem',
+
+  svg: {
+    color: '$gray900',
+    opacity: 0.3,
+  },
+
+  span: {
+    fontSize: '$xl',
+    color: '$gray500',
+  }
+})

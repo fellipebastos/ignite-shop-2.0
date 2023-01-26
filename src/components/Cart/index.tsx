@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { X } from "phosphor-react";
+import { SmileySad, X } from "phosphor-react";
 import { useState } from "react";
 import axios from "axios";
 
@@ -13,7 +13,9 @@ import {
   Product,
   CartProductContainer,
   CartProductList,
-  CartSummary, CheckoutButton
+  CartSummary,
+  CheckoutButton,
+  EmptyCartMessage
 } from "./styles";
 
 interface CartProps {
@@ -58,7 +60,10 @@ export function Cart({ isOpen, onClose }: CartProps) {
         <h1>Sacola de compras</h1>
 
         {!hasItems ? (
-          <p>Seu carrinho está vazio!</p>
+          <EmptyCartMessage>
+            <SmileySad size={120} />
+            <span>Seu carrinho está vazio!</span>
+          </EmptyCartMessage>
         ) : (
           <CartProductList>
             {products.map(product => (
