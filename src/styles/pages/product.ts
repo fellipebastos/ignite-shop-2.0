@@ -59,6 +59,7 @@ export const ProductDetails = styled('div', {
     padding: '1.25rem',
     cursor:'pointer',
     fontSize: '$md',
+    fontWeight: 'bold',
 
     '&:disabled': {
       opacity: 0.6,
