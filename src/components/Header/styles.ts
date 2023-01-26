@@ -43,14 +43,13 @@ export const CartButton = styled('button', {
     right: '-7px',
   },
 
-  '&:disabled': {
-    cursor: 'not-allowed',
-  },
-
   variants: {
     hasItems: {
       true: {
         color: '$gray300',
+      },
+      false: {
+        cursor: 'not-allowed',
       }
     }
   }

@@ -1,5 +1,7 @@
 import type { AppProps } from 'next/app'
 
+import { CartProvider } from '../contexts/CartContext'
+
 import { Header } from '../components/Header'
 
 import { globalStyles } from '../styles/global'
@@ -9,10 +11,12 @@ globalStyles()
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <Container>
-      <Header />
+    <CartProvider>
+      <Container>
+        <Header />
 
-      <Component {...pageProps} />
-    </Container>
+        <Component {...pageProps} />
+      </Container>
+    </CartProvider>
   )
 }

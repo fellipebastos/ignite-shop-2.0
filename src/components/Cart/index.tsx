@@ -1,9 +1,17 @@
+import { useCart } from "@/src/hooks/useCart";
+import { formatToBRL } from "@/src/utils/money";
 import Image from "next/image";
 import { X } from "phosphor-react";
 
-import camisetaImg from '../../assets/camisetas/1.png'
-
-import { CartContainer, CloseButton, ImageContainer, Product, CartProductContainer, CartProductList, CartSummary, CheckoutButton } from "./styles";
+import {
+  CartContainer,
+  CloseButton,
+  ImageContainer,
+  Product,
+  CartProductContainer,
+  CartProductList,
+  CartSummary, CheckoutButton
+} from "./styles";
 
 interface CartProps {
   isOpen: boolean;
@@ -11,6 +19,11 @@ interface CartProps {
 }
 
 export function Cart({ isOpen, onClose }: CartProps) {
+  const { products, total, totalProducts, removeProduct } = useCart()
+
+  const hasItems = totalProducts > 0
+  const formattedTotal = formatToBRL(total);
+
   return (
     <CartContainer isOpen={isOpen}>
       <CloseButton onClick={onClose}>
@@ -20,49 +33,40 @@ export function Cart({ isOpen, onClose }: CartProps) {
       <CartProductContainer>
         <h1>Sacola de compras</h1>
 
-        <CartProductList>
-          <li>
-            <Product>
-              <ImageContainer>
-                <Image src={camisetaImg} width={94} height={94} alt="" />
-              </ImageContainer>
+        {!hasItems ? (
+          <p>Seu carrinho está vazio!</p>
+        ) : (
+          <CartProductList>
+            {products.map(product => (
+              <li key={product.id}>
+                <Product>
+                  <ImageContainer>
+                    <Image src={product.imageUrl} width={94} height={94} alt="" />
+                  </ImageContainer>
 
-              <div>
-                <h2>Camiseta Beyond the Limits</h2>
-                <span>R$ 79,90</span>
-                <button>
-                  Remover
-                </button>
-              </div>
-            </Product>
-          </li>
-          <li>
-            <Product>
-              <ImageContainer>
-                <Image src={camisetaImg} width={94} height={94} alt="" />
-              </ImageContainer>
-
-              <div>
-                <h2>Camiseta Beyond the Limits</h2>
-                <span>R$ 79,90</span>
-                <button>
-                  Remover
-                </button>
-              </div>
-            </Product>
-          </li>
-        </CartProductList>
+                  <div>
+                    <h2>{product.name}</h2>
+                    <span>{product.formattedPrice}</span>
+                    <button onClick={() => removeProduct(product.id)}>
+                      Remover
+                    </button>
+                  </div>
+                </Product>
+              </li>
+            ))}
+          </CartProductList>
+        )}
       </CartProductContainer>
 
       <CartSummary>
         <div>
           <span>Quantidade</span>
-          <span>3 itens</span>
+          <span>{totalProducts} itens</span>
         </div>
 
         <div>
           <span>Valor Total</span>
-          <span>R$ 270,00</span>
+          <span>{formattedTotal}</span>
         </div>
       </CartSummary>
 

@@ -1,28 +1,38 @@
 import { GetStaticProps, GetStaticPaths } from "next"
+import { useState } from "react"
+import Head from "next/head"
+import Image from "next/image"
 import Stripe from "stripe"
+import axios from "axios"
 
 import { stripe } from "@/src/api/stripe"
+
+import { useCart } from "@/src/hooks/useCart"
+
 import { formatToBRL } from "@/src/utils/money"
 
 import { ImageContainer, ProductContainer, ProductDetails } from "@/src/styles/pages/product"
-import Image from "next/image"
-import axios from "axios"
-import { useState } from "react"
-import Head from "next/head"
 
 interface ProductProps {
   product: {
     id: string
     name: string
     imageUrl: string
-    price: string
+    price: number
+    formattedPrice: string
     description: string
     defaultPriceId: string
   }
 }
 
 export default function Product({ product }: ProductProps) {
+  const { addProduct } = useCart()
+
   const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
+
+  function handleAddProductToCart() {
+    addProduct(product)
+  }
 
   async function handleBuyProduct() {
     setIsCreatingCheckoutSession(true)
@@ -53,11 +63,11 @@ export default function Product({ product }: ProductProps) {
         </ImageContainer>
         <ProductDetails>
           <h1>{product.name}</h1>
-          <span>{product.price}</span>
+          <span>{product.formattedPrice}</span>
 
           <p>{product.description}</p>
 
-          <button disabled={isCreatingCheckoutSession} onClick={handleBuyProduct}>
+          <button disabled={isCreatingCheckoutSession} onClick={handleAddProductToCart}>
             Colocar na sacola
           </button>
         </ProductDetails>
@@ -89,7 +99,8 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({ para
         id: product.id,
         name: product.name,
         imageUrl: product.images[0],
-        price: formatToBRL(price),
+        price,
+        formattedPrice: formatToBRL(price),
         description: product.description,
         defaultPriceId: priceObject.id
       }
