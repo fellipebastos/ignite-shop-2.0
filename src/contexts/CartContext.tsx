@@ -5,6 +5,7 @@ type Product = {
   name: string
   imageUrl: string
   price: number
+  quantity: number
   formattedPrice: string
   description: string
   defaultPriceId: string

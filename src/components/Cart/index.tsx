@@ -31,11 +31,9 @@ export function Cart({ isOpen, onClose }: CartProps) {
   async function handleFinishCheckout() {
     setIsCreatingCheckoutSession(true)
 
-    const priceIds = products.map(product => product.defaultPriceId)
-    console.log(priceIds)
     try {
       const response = await axios.post('/api/checkout', {
-        priceIds,
+        products,
       })
 
       const { checkoutUrl } = response.data

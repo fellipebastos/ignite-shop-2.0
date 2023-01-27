@@ -27,7 +27,9 @@ export default function Product({ product }: ProductProps) {
   const { addProduct } = useCart()
 
   function handleAddProductToCart() {
-    addProduct(product)
+    const cartProduct = { ...product, quantity: 1 }
+
+    addProduct(cartProduct)
   }
 
   return (
